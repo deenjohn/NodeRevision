@@ -1,0 +1,78 @@
+#How modules really works ?
+Variables local to the module will be private, because the module is wrapped in a function by Node.js (see module wrapper).This function has arguments like __dirname , filename , exports - an empty object initially,module pointing to Module object, require.
+#module.js
+(function (exports, require, module, __filename, __dirname) {
+
+
+#
+The (.js) file extension is optional. Node.js will add it for you when attempting to load the file. It will also attempt to load the given module as a directory with an index file (index.js) or a package description (package.json).
+
+#
+module is an  empty obj .
+module = {};
+require returns a module.exports  , not "exports"
+
+............................................................
+#inside ""greet" folder there are 3 files : english.js , spanish.js , index.js
+
+ // english.js 
+        var greet = function() {
+             console.log("hello");
+         }//
+
+#spanish.js
+
+var greet = function() {
+	console.log("hola");
+}
+
+
+#index.js
+var english = require('./english');
+var spanish = require('./spanish');
+
+console.log("index file");
+
+module.exports = {
+	english: english,
+	spanish: spanish	
+};
+
+....................................
+
+#app.js
+var greet = require('./greet'); // search for index.js or index.json file by default
+
+greet.english();
+greet.spanish();
+
+
+
+
+
+.................................
+
+
+
+.................................
+
+Resources :
+1)Learn & understand node.js Tony alecia course
+2)Samer byna :https://medium.freecodecamp.com/requiring-modules-in-node-js-everything-you-need-to-know-e7fbd119be8
+3)Secrets of Javascript ninja : 
+      chapter 5 "techniques for memoizing function" - essential for understanding "wrapping" and "caching".
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
