@@ -180,6 +180,16 @@ http://stackoverflow.com/questions/5726729/how-to-parse-json-using-node-js?rq=1
 
 .................................
 
+require.extensions 
+
+require.extensions['.js'].toString();
+
+require.extensions['.json'].toString();
+
+
+
+
+................................................
 #Requiring JSON files
 
 config.json file:
@@ -190,7 +200,7 @@ config.json file:
 }
 
 
-const { host, port } = require('./config');
+const { host, port } = require('./config');  // no need to mention .json extension
 console.log(`Server will run at http://${host}:${port}`);
 
 
