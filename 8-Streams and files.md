@@ -66,30 +66,28 @@ Since readFile and readStream inherit from EventEmitter , we can use method .eve
 
 #pipe change the mode from "resume" to "flow"
 
+#the writable stream is ended automatically when the readable stream emits an end event (unless we specify
+{end: false} as options).
+
+#Piping two streams together will create a suction which allows the data to flow
+automatically to the writable stream, so there is no need to call read() or write();
+
+#TRANSFORM stream
+ReplaceStream is a transform stream
+
+const ReplaceStream = require('./replaceStream');
+process.stdin
+.pipe(new ReplaceStream(process.argv[2], process.argv[3]))
+.pipe(process.stdout);
+
+The preceding program pipes the data that comes from the standard input into a
+ReplaceStream and then back to the standard output. Now, to try this small application,
+we can leverage a Unix pipe to redirect some data into its standard input, as shown in the
+following example:
+echo Hello World! | node replace World Node.js
+
+This should produce the following output:
+Hello Node.js
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
- 
- 
-    
+  
