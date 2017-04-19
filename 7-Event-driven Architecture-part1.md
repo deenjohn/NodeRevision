@@ -1,3 +1,15 @@
+#The EventEmitter class
+
+The observer
+pattern is already built into the core and is available through the EventEmitter class. The
+EventEmitter class allows us to register one or more functions as listeners, which will be
+invoked when a particular event type is fired
+
+eventA : listner 1,2,3
+
+
+
+
 Much of the Node.js core API is built around an idiomatic asynchronous event-driven architecture in which certain kinds of objects
 (called "emitters") periodically emit named events that cause Function objects ("listeners") to be called.
 
