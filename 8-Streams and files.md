@@ -1,4 +1,4 @@
-
+Reference : ch5 , Node.js Design patterns 2nd ed
 
 #What is a stream 
   Data moving
