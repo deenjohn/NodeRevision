@@ -125,5 +125,5 @@ echo Hello World! | node replace World Node.js
 This should produce the following output:
 Hello Node.js
 
-
+ 
   
