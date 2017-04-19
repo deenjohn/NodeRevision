@@ -35,7 +35,7 @@ When this server emit an event : server.emit('request', req, res) , the callback
 reference :
     myEmitter.on('event', function(a, b) {
       console.log(a, b, this);
-      // Prints:
+      // Prints: 
       //   a b MyEmitter {
       //     domain: null,
       //     _events: { event: [Function] },
