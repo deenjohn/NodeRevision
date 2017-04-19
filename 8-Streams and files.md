@@ -83,6 +83,25 @@ Since readFile and readStream inherit from EventEmitter , we can use method .eve
 
 #pipe or 'data' event can change the mode from "resume" to "flow"
 
+
+      var JSONStream = require('JSONStream');
+      var readStream = fs.createReadStream('myfile.json');
+      var parseStream = JSONStream.parse('rows.*.doc');
+      parseStream.on('data', function (doc) {
+        db.insert(doc); // pseudo-code for inserting doc into a pretend database.
+      });
+      readStream.pipe(parseStream);
+     
+     That's the verbose way to help you understand what's happening. Here is a more succinct way:
+
+      var JSONStream = require('JSONStream');
+      fs.createReadStream('myfile.json')
+        .pipe(JSONStream.parse('rows.*.doc'))
+        .on('data', function (doc) {
+          db.insert(doc);
+        });
+
+
 #the writable stream is ended automatically when the readable stream emits an end event (unless we specify
 {end: false} as options).
 
