@@ -21,6 +21,7 @@ require('fs');
 
 Asynchronously append data to a file, creating the file if it does not yet exist. data can be a string or a buffer.
 
+................................
 Events on Readable Stream: close , open,error,data, readable
 Events on Writable Stream : close , drain, finish,pipe ,unpipe
 
@@ -40,7 +41,23 @@ Events on Writable Stream : close , drain, finish,pipe ,unpipe
     end <integer>
  
  ex : { encoding: 'utf8', highWaterMark: 16 * 1024 }
+ ex : 
+       var readStream = fs.createReadStream('./a.png')
+        .on('open' , function(){
+
+          console.log("open !!")
+
+        })
+        .on('end' , function(){
+          readStream.close();
+          console.log("finished !!")
+        })
+        .on('data' , function(chunk){
+         console.log(chunk)
+        });
  
+ 
+ .............................
 Asynchronous
 
 #fs.writeFile(file, data[, options], callback)
@@ -64,7 +81,7 @@ http://stackoverflow.com/questions/4589732/what-are-the-pros-and-cons-of-fs-crea
 Since readFile and readStream inherit from EventEmitter , we can use method .eventNames()
 
 
-#pipe change the mode from "resume" to "flow"
+#pipe or 'data' event can change the mode from "resume" to "flow"
 
 #the writable stream is ended automatically when the readable stream emits an end event (unless we specify
 {end: false} as options).
