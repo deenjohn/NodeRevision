@@ -243,7 +243,7 @@ The app will now be able to handle requests to /birds and /birds/about, ex : htt
 
 as well as call the timeLog middleware function that is specific to the route.
 
-
+Note : if you use : app.use(birds) instead of app.use('/birds', birds),  then this will http://localhost:3000 (route to same path as http://localhost:3000/birds )
 
 
 
