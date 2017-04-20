@@ -1,7 +1,10 @@
 
 
 https://expressjs.com/en/resources/middleware.html
+
 http://stackoverflow.com/questions/36856232/write-add-data-in-json-file-using-node-js
+
+http://stackoverflow.com/questions/4935632/parse-json-in-javascript?rq=1
 
 jsonfile.writeFile('f.json', JSON.stringify(tweets), {spaces:2}, function(err){
       console.log(err);
@@ -10,7 +13,7 @@ jsonfile.writeFile('f.json', JSON.stringify(tweets), {spaces:2}, function(err){
 
 using twitter API
 
-client.get('search/tweets', {q: 'Sonu nigam'}, function(error, tweets, response) {
+client.get('search/tweets', {q: 'Node.js}, function(error, tweets, response) {
 	
 	var jsn = JSON.stringify(tweets);
 	
