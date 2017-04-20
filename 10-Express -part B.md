@@ -6,6 +6,10 @@ http://stackoverflow.com/questions/36856232/write-add-data-in-json-file-using-no
 
 http://stackoverflow.com/questions/4935632/parse-json-in-javascript?rq=1
 
+https://dev.twitter.com/rest/reference/get/favorites/list
+
+https://dev.twitter.com/rest/public/search
+
 jsonfile.writeFile('f.json', JSON.stringify(tweets), {spaces:2}, function(err){
       console.log(err);
      });
