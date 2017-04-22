@@ -297,7 +297,15 @@ Note : if you use : app.use(birds) instead of app.use('/birds', birds),  then th
 
 
 
+redirecting with status :
 
+app.get('/locations', function(request, response) {
+  response.redirect(301, '/cities');
+});
+
+Request URL:http://localhost:3000/locations
+Request Method:GET
+Status Code:301 Moved Permanently
 
 
 
