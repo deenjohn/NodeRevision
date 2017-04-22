@@ -56,6 +56,53 @@ app.listen(port);
 
 process.env.PORT : for production environment
 
+...........................................
+Serving static files in Express
+https://expressjs.com/en/starter/static-files.html
+To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express
+
+express.static : is a function 
+app.use(express.static('public'))
+
+
+To use multiple static assets directories, call the express.static middleware function multiple times:
+
+app.use(express.static('public'))
+app.use(express.static('files'))
+...............................................................................
+To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
+
+app.use('/static', express.static('public'))
+Now, you can load the files that are in the public directory from the /static path prefix.
+
+http://localhost:3000/static/images/kitten.jpg
+http://localhost:3000/static/css/style.css
+http://localhost:3000/static/js/app.js
+http://localhost:3000/static/images/bg.png
+http://localhost:3000/static/hello.html
+
+........................
+
+app.use(express.static("public"));
+app.use(express.static("node_modules/bootstrap/dist"));
+
+If the requested file is not in any of these folders then we get another handler
+
+ http://localhost:3000/hello
+is handled by app.get('/hello', function (req, res) {
+    res.send('Hello Worldss!');
+});
+
+http://localhost:3000/ is handled by 
+
+app.use(express.static("public")); 
+app.use(express.static("node_modules/bootstrap/dist"));
+by default index.html will be searched
+
+ let's say h.html is in public folder and index.html is in node_modules/bootstrap/dist , then ist search in public folder then in node_modules/bootstrap/dist ..here index.html is found and served for http://localhost:3000/
+ 
+
+
 
 .................
 app.get('/', function(req, res) {
