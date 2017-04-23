@@ -131,7 +131,7 @@ https://expressjs.com/en/starter/static-files.html
 	});
 ......................................................
 
-#middleware
+# middleware
 https://expressjs.com/en/guide/using-middleware.html
 
 app.use('/assets', express.static(__dirname + '/public'));
@@ -194,7 +194,7 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ...............................
 
-Middleware for specific request :
+## Middleware for specific request :
 
 app.use('/assets', express.static(__dirname + '/public'));
 Above middleware is invoked only if '/assets' is invoked in url
@@ -264,12 +264,13 @@ app.route('/book')
   })
 
 
-express.Router
+# express.Router
+
 Use the express.Router class to create modular, mountable route handlers. A Router instance is a complete middleware and routing system; for this reason, it is often referred to as a “mini-app”.
 
 The following example creates a router as a module, loads a middleware function in it, defines some routes, and mounts the router module on a path in the main app.
 
-Create a router file named birds.js in the app directory, with the following content:
+### Create a router file named birds.js in the app directory, with the following content:
 
 birds.js
         var express = require('express')
@@ -305,11 +306,11 @@ app.use('/birds', birds); : this is '/birds' +'/'
 app.listen(3000);
 
 
-The app will now be able to handle requests to /birds and /birds/about, ex : http://localhost:3000/birds ,http://localhost:3000/birds/about
+### The app will now be able to handle requests to /birds and /birds/about, ex : http://localhost:3000/birds ,http://localhost:3000/birds/about
 
 as well as call the timeLog middleware function that is specific to the route.
 
-Note : if you use : app.use(birds) instead of app.use('/birds', birds),  then this will http://localhost:3000 (route to same path as http://localhost:3000/birds )
+## Note : if you use : app.use(birds) instead of app.use('/birds', birds),  then this will http://localhost:3000 (route to same path as http://localhost:3000/birds )
 
 
 
