@@ -7,7 +7,7 @@ under express folder in node_module , there is a file called "index.js" which ha
 so , the actual express file is under ./lib/express which is under express folder
 
 
-#express.js :Digging in the source code
+# express.js :Digging in the source code
 
 var express = require('express');
 above code returns require('./lib/express'); which in turn return returns require('./lib/express'); which export:
@@ -46,7 +46,7 @@ var port = process.env.PORT || 3000;
 app.listen(port);
 
 ...................................
-#from application.js under express/lib
+# from application.js under express/lib
 
     app.listen = function listen() {
       var server = http.createServer(this);
@@ -57,27 +57,27 @@ app.listen(port);
 process.env.PORT : for production environment
 
 ...........................................
-Serving static files in Express
+# Serving static files in Express
 https://expressjs.com/en/starter/static-files.html
 
-Express own Middleware
+## Express own Middleware
 
-  To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express
+  ### To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express
 
 	express.static : is a function 
 	app.use(express.static('public'))  //public is the folder under root directory which contains static contents
 
 
-	To use multiple static assets directories, call the express.static middleware function multiple times:
+	## To use multiple static assets directories, call the express.static middleware function multiple times:
 
 	app.use(express.static('public'))
 	app.use(express.static('files'))
 	...............................................................................
-	To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
+	## To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
 
 	app.use('/static', express.static('public'))
 	
-	Now, you can load the files that are in the public directory from the /static path prefix.
+	## Now, you can load the files that are in the public directory from the /static path prefix.
 
 	http://localhost:3000/static/images/kitten.jpg
 	http://localhost:3000/static/css/style.css
@@ -90,14 +90,14 @@ Express own Middleware
 	app.use(express.static("public"));
 	app.use(express.static("node_modules/bootstrap/dist"));
 
-	If the requested file is not in any of these folders then we get another handler
+	## If the requested file is not in any of these folders then we get another handler
 
 	 http://localhost:3000/hello
 	is handled by app.get('/hello', function (req, res) {
 	    res.send('Hello Worldss!');
 	});
         
-	Very imp :
+	# Very imp :
 	
 	http://localhost:3000/ is handled by 
 
@@ -205,12 +205,12 @@ app.use('/', function (req, res, next) {
 	next();
 })
 
-This middleware is for all request on root path '/'  ex :  '/' , '/api' etc
+# This middleware is for all request on root path '/'  ex :  '/' , '/api' etc
 
 
-More than one callback function can handle a route (make sure you specify the next object). For example:
+# More than one callback function can handle a route (make sure you specify the next object). For example:
 
-Chaining Middleware
+# Chaining Middleware
 
 app.get('/example/b', function (req, res, next) {
   console.log('the response will be sent by the next function ...')
@@ -242,10 +242,10 @@ app.get('/example/c', [cb0, cb1, cb2])
 
 ..........................................
 
-Chaining route:
+# Chaining route:
 
 
-app.route()
+## app.route()
 
 You can create chainable route handlers for a route path by using app.route(). Because the path is specified at a single location,
 creating modular routes is helpful, as is reducing redundancy and typos. For more information about routes, see: Router() documentation.
@@ -351,7 +351,7 @@ Response.sendFile
 
 
 
-Reference : https://expressjs.com/en/guide/routing.html
+## Reference : https://expressjs.com/en/guide/routing.html
 
 
 
