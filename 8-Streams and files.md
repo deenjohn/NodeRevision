@@ -1,19 +1,19 @@
 Reference : ch5 , Node.js Design patterns 2nd ed
 
-#What is a stream 
+# What is a stream 
   Data moving
 
 
-#Stream
+## Stream
 What is a stream ?
 Data flow.Use memory effeciently.
 
-#Files :
+## Files :
 
 require('fs');
-#readFile : If no encoding is specified, then the raw buffer is returned.
+## readFile : If no encoding is specified, then the raw buffer is returned.
 
-#fs.appendFile(file, data[, options], callback)
+## fs.appendFile(file, data[, options], callback)
     options <Object> | <string>
     encoding <string> | <null> default = 'utf8'
     mode <integer> default = 0o666
@@ -25,7 +25,7 @@ Asynchronously append data to a file, creating the file if it does not yet exist
 Events on Readable Stream: close , open,error,data, readable
 Events on Writable Stream : close , drain, finish,pipe ,unpipe
 
-#fs.createReadStream(path[, options])
+### fs.createReadStream(path[, options])
      is a : 
       function(path, options) {
         return new ReadStream(path, options);
@@ -58,9 +58,9 @@ Events on Writable Stream : close , drain, finish,pipe ,unpipe
  
  
  .............................
-Asynchronous
+## Asynchronous
 
-#fs.writeFile(file, data[, options], callback)
+### fs.writeFile(file, data[, options], callback)
 Event : close , open ,data
 Asynchronously writes data to a file, replacing the file if it already exists. data can be a string or a buffer.
 
@@ -72,16 +72,16 @@ ex : fs.writeFile('message.txt', 'Hello Node.js', (err) => {
 "Hello Node.js"  is the data written to file
 
 
-#readFile vs readStream
+# readFile vs readStream
 
 http://stackoverflow.com/questions/4589732/what-are-the-pros-and-cons-of-fs-createreadstream-vs-fs-readfile-in-node-js
 
 
-#eventNames()
+## eventNames()
 Since readFile and readStream inherit from EventEmitter , we can use method .eventNames()
 
 
-#pipe or 'data' event can change the mode from "resume" to "flow"
+# pipe or 'data' event can change the mode from "resume" to "flow"
 
 
       var JSONStream = require('JSONStream');
@@ -102,13 +102,13 @@ Since readFile and readStream inherit from EventEmitter , we can use method .eve
         });
 
 
-#the writable stream is ended automatically when the readable stream emits an end event (unless we specify
+# the writable stream is ended automatically when the readable stream emits an end event (unless we specify
 {end: false} as options).
 
-#Piping two streams together will create a suction which allows the data to flow
+# Piping two streams together will create a suction which allows the data to flow
 automatically to the writable stream, so there is no need to call read() or write();
 
-#TRANSFORM stream
+# TRANSFORM stream
 ReplaceStream is a transform stream
 
 const ReplaceStream = require('./replaceStream');
