@@ -150,6 +150,7 @@ app.get('/', function(req, res) {
 
 
 ..............................
+## logger.js 
 
 var express = require('express')
 var app = express()
@@ -159,7 +160,14 @@ var myLogger = function (req, res, next) {
   next()
 }
 
-app.use(myLogger) : this middleware is used for both '/' or '/api'
+module.exports = myLogger ;
+
+## app.js
+var express = require('express')
+var app = express()
+var logger = require('./logger')  
+
+app.use(logger) : this middleware is used for both '/' or '/api'
 
 
 app.get('/', function (req, res) {
