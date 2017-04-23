@@ -7,7 +7,7 @@ under express folder in node_module , there is a file called "index.js" which ha
 so , the actual express file is under ./lib/express which is under express folder
 
 
-#express.js :
+#express.js :Digging in the source code
 
 var express = require('express');
 above code returns require('./lib/express'); which in turn return returns require('./lib/express'); which export:
@@ -60,12 +60,12 @@ process.env.PORT : for production environment
 Serving static files in Express
 https://expressjs.com/en/starter/static-files.html
 
-Express Middleware
+Express own Middleware
 
   To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express
 
 	express.static : is a function 
-	app.use(express.static('public'))
+	app.use(express.static('public'))  //public is the folder under root directory which contains static contents
 
 
 	To use multiple static assets directories, call the express.static middleware function multiple times:
@@ -76,6 +76,7 @@ Express Middleware
 	To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
 
 	app.use('/static', express.static('public'))
+	
 	Now, you can load the files that are in the public directory from the /static path prefix.
 
 	http://localhost:3000/static/images/kitten.jpg
@@ -95,26 +96,40 @@ Express Middleware
 	is handled by app.get('/hello', function (req, res) {
 	    res.send('Hello Worldss!');
 	});
-
+        
+	Very imp :
+	
 	http://localhost:3000/ is handled by 
 
 	app.use(express.static("public")); 
 	app.use(express.static("node_modules/bootstrap/dist"));
 	by default index.html will be searched
 
-	 let's say h.html is in public folder and index.html is in node_modules/bootstrap/dist , then ist search in public folder then in node_modules/bootstrap/dist ..here index.html is found and served for http://localhost:3000/
+	 let's say h.html is in public folder and index.html is in node_modules/bootstrap/dist , 
+	 then ist search in public folder then in node_modules/bootstrap/dist ..here index.html is found and served for 		
+          http://localhost:3000/
 
 
 
-
-	.................
+	.............................................
 	app.get('/', function(req, res) {
 		res.send('<html><head></head><body><h1>Hello world!</h1></body></html>');
 	});
 
 	We are not setting the content-type but Express takes care of it.
+	
+	Another example :
+	
+	Set the default view engine lookup directory
+	
+	app.set('view engine' , __dirname + '/public');   //response.render('index'); will be searched in public folder
 
 
+	app.get('/cities', function (request, response) {                                                                                                     
+
+	  response.render('index');
+	});
+......................................................
 
 #middleware
 https://expressjs.com/en/guide/using-middleware.html
@@ -135,6 +150,7 @@ app.get('/', function(req, res) {
 
 
 ..............................
+
 var express = require('express')
 var app = express()
 
@@ -178,7 +194,7 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ...............................
 
-Middleware for specefic request :
+Middleware for specific request :
 
 app.use('/assets', express.static(__dirname + '/public'));
 Above middleware is invoked only if '/assets' is invoked in url
@@ -193,6 +209,8 @@ This middleware is for all request on root path '/'  ex :  '/' , '/api' etc
 
 
 More than one callback function can handle a route (make sure you specify the next object). For example:
+
+Chaining Middleware
 
 app.get('/example/b', function (req, res, next) {
   console.log('the response will be sent by the next function ...')
@@ -222,11 +240,9 @@ var cb2 = function (req, res) {
 app.get('/example/c', [cb0, cb1, cb2])
 
 
+..........................................
 
-
-
-
-
+Chaining route:
 
 
 app.route()
