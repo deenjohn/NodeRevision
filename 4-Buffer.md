@@ -4,16 +4,16 @@ Samer buna advanced node course
 
 https://nelsonic.gitbooks.io/node-js-by-example/content/core/buffer/README.html
 
-#What Are Buffers?
+# What Are Buffers?
 Buffers are instances of the Buffer class in node, which is designed to handle raw binary data. Each buffer corresponds to some raw memory allocated outside V8. Buffers act somewhat like arrays of integers, but aren't resizable and have a whole bunch of methods specifically for binary data. In addition, the "integers" in a buffer each represent a byte and so are limited to values from 0 to 255 (2^8 - 1), inclusive.
 
-#Where You See Buffers:
+# Where You See Buffers:
 
 In the wild, buffers are usually seen in the context of binary data coming from streams, such as fs.createReadStream.
 
 
 
-#Binary data type, to create:
+## Binary data type, to create:
 
           Buffer.alloc(size)
           Buffer.from(array)
@@ -55,18 +55,18 @@ The character encodings currently supported by Node.js include:
         'hex' - Encode each byte as two hexadecimal characters.
       
     
- #if no encoding provided for string then , it will automatically be assigned utf-8   
+ ### if no encoding provided for string then , it will automatically be assigned utf-8   
    function fromString(string, encoding) {
     if (typeof encoding !== 'string' || encoding === '')
       encoding = 'utf8';
       
  
- #Writting to buffers
+ # Writting to buffers
     Buffer.prototype.write = function(string, offset, length, encoding) {
     
- #Buffer once allocated can't be resized
+ ## Buffer once allocated can't be resized
  
- #alloc vs unalloc 
+ # alloc vs unalloc 
  
  Buffer.alloc(8); will allocate 8 bytes and initialize them as 0 
  Buffer.allocUnsafe(8) will allocate 8 bytes but won't fill the created buffer.
@@ -76,12 +76,12 @@ The character encodings currently supported by Node.js include:
     Buffer.allocUnsafe(8).fill();
  
  
- #buf.slice([start[, end]]) 
+ # buf.slice([start[, end]]) 
  will share the original buffer and if this new buffer created by slice method make changes then these changes are reflected in original buffer too.
  
- #String decoder
+ # String decoder
  
- #buffer.copy(target, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+ ## buffer.copy(target, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
  > var frosty = new Buffer(24)
 > var snowman = new Buffer("☃", "utf-8")
 > frosty.write("Happy birthday! ", "utf-8")
@@ -96,7 +96,7 @@ The character encodings currently supported by Node.js include:
  ///https://nodejs.org/api/buffer.html#buffer_buf_write_string_offset_length_encoding
  
  
- #buf.write(string[, offset[, length]][, encoding])
+ ## buf.write(string[, offset[, length]][, encoding])
  
  var buffer = new Buffer(16); //buffer of 16 bytes
  const a = buffer.write("Hello", "utf-8");
@@ -110,7 +110,7 @@ The character encodings currently supported by Node.js include:
  //buffer.write("world", 5, "utf-8"); offset 5 bytes so , start from 6th 
  console.log(buffer.toString());
  
- #buffer.js
+ ## buffer.js
  case 'utf8':
  case 'utf-8':
         return this.utf8Write(string, offset, length);
