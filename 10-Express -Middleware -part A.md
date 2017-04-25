@@ -349,7 +349,36 @@ Response.sendFile
 
 
 
+..................................................
 
+var blocks = {
+'Fixed': 'Fastened securely in position',
+'Movable': 'Capable of being moved',
+'Rotating': 'Moving in a circle around its center'
+};
+});
+...
+# Responding with Not Found
+informative error message
+Respond with a custom JSON error message
+
+app.get('/blocks/:name', function(request, response) {
+	var description = blocks[request.params.name];
+	
+		if (!description) {
+		response.status(404).json('No description found for ' + request.params.name);
+		} else {
+		response.json(description);
+		}
+	
+  });
+  
+  
+  
+  
+	
+	
+})
 
 
 
