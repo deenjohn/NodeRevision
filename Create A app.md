@@ -23,7 +23,7 @@ Sends 3 request :
 1 request for index.html in public folder 
 2 request for bootstrap.css and style.css in node_modules/bootstrap/dist
 
-note : <li class="active"><a href="/">Home</a></li> 
+#### note : <li class="active"><a href="/">Home</a></li> 
 clicking on home will send a request to route '/' , which is handled by app.use(express.static("public"));
 
 
@@ -42,11 +42,12 @@ app.set("views", "./views");
 
 app.set('view engine', 'jade');
 
-app.use(express.static("public"));
+app.use(express.static("public")); //register the middleware
 app.use(express.static("node_modules/bootstrap/dist"));
 
 app.get('/', function (req, res) {
-    res.render("index", { title: "Home"}); ### render the view 
+    res.render("index", { title: "Home"});
+    ### render the view 
 });
 
 app.get('/admin/rooms', function (req, res) {
@@ -84,10 +85,12 @@ app.get('/admin/rooms/add', function (req, res) {
 app.post('/admin/rooms/add', function (req, res) {
     var room = {
         name: req.body.name,
-        id: uuid.v4()  //var uuid = require("node-uuid");
+        id: uuid.v4()  
+        #### var uuid = require("node-uuid");
     };
 
-    rooms.push(room);  //var rooms = require("./data/rooms.json");
+    rooms.push(room);  
+    #### var rooms = require("./data/rooms.json");
    
 
     res.redirect("/admin/rooms");
@@ -124,7 +127,8 @@ app.get('/admin/rooms/delete/:id', function(req, res){
 
     rooms = rooms.filter(r => r.id !== roomId); 
 
-    res.redirect("/admin/rooms");  // after adding the room , redirect to admin/rooms page
+    res.redirect("/admin/rooms");  
+    #### after adding the room , redirect to admin/rooms page
 }); 
 
 
@@ -141,7 +145,8 @@ var express = require("express");
 var rooms = require("./data/rooms.json");
 
 var router = express.Router();
-module.exports = router;      ###export this module as router
+module.exports = router;      
+### export this module as router
 
 router.get('/rooms', function (req, res) {
   res.render("rooms", {
@@ -162,7 +167,8 @@ router.route('/rooms/add')
 
     rooms.push(room);
 
-    res.redirect(req.baseUrl + "/rooms");  #### req.baseUrl is '/admin' . we can also use  res.redirect('.'); . is root dir which is /rooms/add
+    res.redirect(req.baseUrl + "/rooms");  
+    #### req.baseUrl is '/admin' . we can also use  res.redirect('.'); . is root dir which is /rooms/add
   });
 
 router.route('/rooms/edit/:id')
@@ -202,6 +208,61 @@ router.get('/rooms/delete/:id', function (req, res) {
 .........................................
 
 # App 5
+
+#### Register a logging middleware
+
+app.use(function(req, res, next){
+
+   console.log("Incoming request :${req.url}");
+   next();   
+   ### you can put looging after next() too 
+});
+
+
+router.route('/rooms/edit/:id')
+  .all(function(req, res, next){   
+  #### run this function before any request handler for this particular route 
+    var roomId = req.params.id;
+
+    var room = _.find(rooms, r => r.id === roomId);
+    if (!room) {
+      res.sendStatus(404);
+      return;
+    }
+    res.locals.room = room;  
+    #### create a parameter on request  
+    next()                          
+    #### call next to pass this request to get or any other route handler
+  })
+  .get(function (req, res) {
+    res.render("edit");
+  })
+  .post(function (req, res) {
+    res.locals.room.name = req.body.name;
+
+    res.redirect(req.baseUrl + "/rooms");
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
