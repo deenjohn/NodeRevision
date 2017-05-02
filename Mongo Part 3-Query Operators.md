@@ -1,3 +1,16 @@
+https://docs.mongodb.com/manual/reference/operator/query/
+
+
+# Querying With single Criteria
+
+
+{ <field>: { $eq: <value> } }
+db.inventory.find( { qty: { $eq: 20 } } )
+The query is equivalent to:
+
+db.inventory.find( { qty: 20 } )
+
+
 
 # Querying With Multiple Criteria
 
@@ -16,7 +29,21 @@ specified value.
 $gt greater than
 $gte
 $lt
-$lte
+$lte Syntax: { field: { $lte: value} }
+Consider the following example which uses the $lt operator with a field from an embedded document:
+
+db.inventory.update( { "carrier.fee": { $lte: 5 } }, { $set: { price: 9.99 } } )
+This update() operation will set the price field value in the documents that contain the embedded document carrier whose fee field value is less than or equal to 5
+
+$and https://docs.mongodb.com/manual/reference/operator/query/and/#op._S_and
+
+### Exists and Not Equal To
+
+Consider the following example:
+
+db.inventory.find( { qty: { $exists: true, $nin: [ 5, 15 ] } } )
+This query will select all documents in the inventory collection where the qty field exists and its value does not equal 5 or 15.
+
 $ne
 greater than or equal to
 less than
@@ -40,11 +67,28 @@ the entire document matches.
 
 ### Conversely, the document will not match if only 1 criteria is met.
 
+# $elemMatch
+{ <field>: { $elemMatch: { <query1>, <query2>, ... } } }
+
+The $elemMatch operator matches documents that contain an array field with at least one element that matches all the specified query criteria
+
+### field is an array here 
+
+
+
+
 
 # Introducing Projections
 
+
+
 find() takes a second parameter called a “projection” that we can use to specify the exact
 fields we want back by setting their value to true.
+
+
+
+
+
 
 ### Only retrieve what’s needed
 
