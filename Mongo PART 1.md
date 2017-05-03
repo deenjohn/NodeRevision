@@ -1,3 +1,26 @@
+# create a collection and save a doc in it
+> use mydb
+
+> db.foo.save({a:2})
+
+### {a:2} is a document saved in collection foo in the database mydb
+
+# show collections
+
+# db.system.indexes.find()
+
+mongo has created an index on id field . "key":
+
+
+# id can't be an array
+# id can be a floating point integer, date , string
+
+# objectid function returns a new id everytime you call it
+
+# 2 documents can't have the same id
+# saving the last one will overide the 1st one
+# insert with same id will give error
+
 
 # Insert a document into a collection 
 
@@ -113,31 +136,6 @@ client-side before saving it.
 1) NO DUPLICATE ID 
 2) No syntax error
 3) document is less than 16 mb
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
