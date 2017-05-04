@@ -11,6 +11,20 @@ db.potions.remove(
 WriteResult({ "nRemoved": 1 })
 
 
+# update command
+is atomic . so no 2 clients may update the same document
+
+Syntax : db.foo.update(query , update , options);
+ ### foo is the collection name , "query" for targeted document/documents ,  "update" parameter to mention what change you want to make
+ options like upsert , one-many , 
+
+
+db.foo.update({a:1} , {$inc : {a:1}})
+
+
+
+
+
 # Updating a Document : only applies to 1st matching document
 
 ### {"$set": {"price": 3.99 }}
@@ -97,6 +111,15 @@ WriteResult({
 ###  Removing Fields From Documents
 
 ### The $unset operator can be used to remove specified fields.
+
+db.a.update({_id :1} , {$unset :{y: 0}})
+
+### rename
+
+db.foo.update({_id :1} , {$rename: {'Naem' : 'Name'}})
+
+
+
 
 Unset field : color
 db.potions.update(
@@ -189,6 +212,11 @@ Result
 # Adding Values to the End of an Array
 The $push operator will add a value to the end of an array.
 
+{"_id" :1 , "things" :["one"] }
+
+db.foo.update({_id :1} , { $push : {things : "two"} })
+
+
 # Adding Unique Values to an Array
 The $addToSet operator will add a value to the end of an array unless it is already present.
 
@@ -196,54 +224,27 @@ The $addToSet operator will add a value to the end of an array unless it is alre
 # Removing Values From an Array
 
 The $pull operator will remove any instance of a value from an array.
+i.e if there are 2 elements in an array with name "three" , then pull will remove all instances of three
+
+{$pull : {things : 'three'}} 
+
+
+# add to set only add once however times you run it
+$addToSet
 
 
 
+# update multiple arrays with same fieldname 
 
+db.foo.update({} , {$push : {things : 4}})
 
+{} means match any .
+bydefault only one document is affected.
 
+### making changes in all 
+db.foo.update({} , {$push : {things : 4}} , {multi : true })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# find and modify : affect only one record
 
 
 
