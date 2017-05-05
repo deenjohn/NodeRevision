@@ -174,9 +174,110 @@ describe('Reading users out of the database', () => {
   });
 });
 
+....................................
+# Automatically run test script
+package.json
+
+"scripts": {
+    "test": "nodemon --exec 'mocha -R min'"
+  }
+  
+
+# Using Promise.resolve()
+let promise = Promise.resolve(42);
+
+promise.then(function(value) {
+    console.log(value);         // 42
+});
+
+# Chaining Promises
+let p1 = new Promise(function(resolve, reject) {
+    resolve(42);
+});
+
+let p2 = p1.then(function(value) {
+    console.log(value);
+})
+
+p2.then(function() {
+    console.log("Finished");
+});
 
 
+# The Promise.all() Method
+let p1 = new Promise(function(resolve, reject) {
+    resolve(42);
+});
 
+let p2 = new Promise(function(resolve, reject) {
+    resolve(43);
+});
+
+let p3 = new Promise(function(resolve, reject) {
+    resolve(44);
+});
+
+let p4 = Promise.all([p1, p2, p3]);
+
+p4.then(function(value) {
+    console.log(Array.isArray(value));  // true
+    console.log(value[0]);              // 42
+    console.log(value[1]);              // 43
+    console.log(value[2]);              // 44
+});
+
+......................................
+
+# Delete 
+const assert = require('assert');
+const User = require('../src/user');
+
+describe('Deleting a user', () => {
+  let joe;
+
+  beforeEach((done) => {
+    joe = new User({ name: 'Joe' });
+    joe.save()
+      .then(() => done());
+  });
+
+  it('model instance remove', (done) => {
+    joe.remove()
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user === null);
+        done();
+      });
+  });
+
+  it('class method remove', (done) => {
+    // Remove a bunch of records with some given criteria
+    User.remove({ name: 'Joe' })
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user === null);
+        done();
+      });
+  });
+
+  it('class method findOneAndRemove', (done) => {
+    User.findOneAndRemove({ name: 'Joe' })
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user === null);
+        done();
+      });
+  });
+
+  it('class method findByIdAndRemove', (done) => {
+    User.findByIdAndRemove(joe._id)
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user === null);
+        done();
+      });
+  });
+});
 
 
 
