@@ -2,6 +2,7 @@
 References :
 http://mongoosejs.com/docs/
 http://mongoosejs.com/docs/api.html
+http://stackoverflow.com/questions/28229424/how-to-set-execution-order-of-mocha-test-cases-in-multiple-files
 
 ## test a connection
 const mongoose = require('mongoose');
@@ -92,6 +93,23 @@ i.e
   ## delete all documents from a collection
   db.users.remove({}) : will delete all documents from users collection
 
+
+## wait till connection before running another test using " done()"
+
+before((done) => {
+  mongoose.connect('mongodb://localhost/test');
+  mongoose.connection
+    .once('open', () => { done(); })
+    .on('error', (error) => {
+      console.warn('Warning', error);
+    });
+});
+
+beforeEach((done) => {
+mongoose.connection.collections.users.drop(() =>{
+  
+    done(); //wait till drop the collection 
+  });
 
 
 
