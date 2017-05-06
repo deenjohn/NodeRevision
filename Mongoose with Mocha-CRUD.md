@@ -4,6 +4,8 @@ http://mongoosejs.com/docs/
 http://mongoosejs.com/docs/api.html
 http://stackoverflow.com/questions/28229424/how-to-set-execution-order-of-mocha-test-cases-in-multiple-files
 http://mongoosejs.com/docs/guide.html
+https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
 
 ## test a connection
 const mongoose = require('mongoose');
@@ -42,6 +44,8 @@ module.exports = User;
 
 #### we create instances of model and save in mongo
 
+# Note : Mongoose async operations, like .save() and queries, return Promises/A+ conformant promises. This means that you can do things like MyModel.findOne({}).then() and yield MyModel.findOne({}).exec() (if you're using co).
+http://mongoosejs.com/docs/promises.html
 
 ## test with Mocha 
 
@@ -278,6 +282,93 @@ describe('Deleting a user', () => {
       });
   });
 });
+
+
+................................................
+
+# UPDATE
+
+### 5 Ways we can update :
+
+1)Model class
+  a) update
+  b) findOneAndUpdate
+  c)findByIdAndUpdate
+
+2) Instance
+  a)Update
+  b)Set and Save
+
+
+const assert = require('assert');
+const User = require('../src/user');
+
+describe('Updating records', () => {
+  let joe;
+
+  beforeEach((done) => {
+    joe = new User({ name: 'Joe', likes: 0 });
+    joe.save()
+      .then(() => done());
+  });
+
+  function assertName(operation, done) {
+    operation
+      .then(() => User.find({}))
+      .then((users) => {
+        assert(users.length === 1);
+        assert(users[0].name === 'Alex');
+        done();
+      });
+  }
+
+### Instance
+  it('instance type using set n save', (done) => {
+    joe.set('name', 'Alex');
+    assertName(joe.save(), done);
+  });
+
+  it('A model instance can update', (done) => {
+    assertName(joe.update({ name: 'Alex' }), done);
+  });
+
+### Model class
+  it('A model class can update', (done) => {
+    assertName(
+      User.update({ name: 'Joe' }, { name: 'Alex' }),
+      done
+    );
+  });
+
+  it('A model class can update one record', (done) => {
+    assertName(
+      User.findOneAndUpdate({ name: 'Joe' }, { name: 'Alex' }),
+      done
+    );
+  });
+
+  it('A model class can find a record with an Id and update', (done) => {
+    assertName(
+      User.findByIdAndUpdate(joe._id, { name: 'Alex' }),
+      done
+    );
+  });
+
+  it('A user can have their postcount incremented by 1', (done) => {
+    User.update({ name: 'Joe' }, { $inc: { likes: 10 } })
+      .then(() => User.findOne({ name: 'Joe' }))
+      .then((user) => {
+        assert(user.likes === 10);
+        done();
+      });
+  });
+});
+
+
+
+
+
+
 
 
 
