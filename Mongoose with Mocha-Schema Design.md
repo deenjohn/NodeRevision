@@ -1,4 +1,6 @@
 
+https://alexanderzeitler.com/articles/mongoose-referencing-schema-in-properties-and-arrays/
+
 # Refer documents
 
 
@@ -122,7 +124,127 @@ beforeEach((done) => {
 
    
 
+#### Populate : loading associations on demand
+
+#### Without populate 
+
+ it.only('saves a relation between a user and a blogpost', (done) => {
+      User.findOne({ name: 'Joe' })
+        .then((user) => {
+          console.log(user);
+          done();
+        });
+    });
 
 
+ #### Result 
+Assocations
+{ _id: 590fd973276bf804b025e2c1,
+  name: 'Joe',
+  __v: 0,
+  blogPosts: [ 590fd973276bf804b025e2c2 ],
+  posts: [] }
+  
+  
+  #### With Populate
+  
+  it.only('saves a relation between a user and a blogpost', (done) => {
+      User.findOne({ name: 'Joe' }).populate('blogPosts')
+        .then((user) => {
+          console.log(user);
+          done();
+        });
+    });
+    
+   #### Result 
+ Assocations
+{ _id: 590fd8e1eeb0c5215c5c5f2b,
+  name: 'Joe',
+  __v: 0,
+  blogPosts: 
+   [ { _id: 590fd8e1eeb0c5215c5c5f2c,
+       title: 'JS is Great',
+       content: 'Yep it really is',
+       __v: 0,
+       comments: [Object] } ],
+  posts: [] }
+
+#### Note : 
+User.findOne({ name: 'Joe' }).populate('blogPosts')
+blogPosts is a property on User
+...................................
+
+# Populate full relational graph
+
+ it.only('saves a full relation graph', (done) => {
+    User.findOne({ name: 'Joe' })
+      .populate({
+        path: 'blogPosts',
+        populate: {
+          path: 'comments',
+          model: 'comment',
+          populate: {
+            path: 'user',
+            model: 'user'
+          }
+        }
+      })
+      .then((user) => {
+        assert(user.name === 'Joe');
+        assert(user.blogPosts[0].title === 'JS is Great');
+        assert(user.blogPosts[0].comments[0].content === 'Congrats on great post');
+        assert(user.blogPosts[0].comments[0].user.name === 'Joe');
+
+        done();
+      });
+  });
+  
+  
+  ..................................................................
+
+
+ it.only('saves a full relation graph', (done) => {
+    User.findOne({ name: 'Joe' })
+      .populate({
+        path: 'blogPosts',
+        populate: {
+          path: 'comments',
+          model: 'comment',  ///  mongoose.model('comment', CommentSchema);
+          populate: {
+            path: 'user',
+            model: 'user'
+          }
+        }
+      })
+      .then((user) => {
+        console.log(user);
+        assert(user.name === 'Joe');
+        assert(user.blogPosts[0].title === 'JS is Great');
+        assert(user.blogPosts[0].comments[0].content === 'Congrats on great post');
+        assert(user.blogPosts[0].comments[0].user.name === 'Joe');
+
+        done();
+      });
+  });
+
+
+console.log(user.blogPosts[0]);
+
+{ _id: 590ff3e75353fb27c817caf0,
+  title: 'JS is Great',
+  content: 'Yep it really is',
+  __v: 0,
+  comments: 
+   [ { _id: 590ff3e75353fb27c817caf1,
+       user: [Object],
+       content: 'Congrats on great post',
+       __v: 0 } ] }
+
+
+# Note on Mocha :
+
+Mocha always runs 'before' function  1st , then 'describe' , then beforeEach , then 'it' no matter in which modules we load first
+
+before > describe >  beforeEach > it
 
 
