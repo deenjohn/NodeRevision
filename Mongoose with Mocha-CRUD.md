@@ -107,6 +107,8 @@ i.e
 
 ## wait till connection before running another test using " done()"
 
+#### Note : this before will run 1st in the whole folder
+
 before((done) => {
   mongoose.connect('mongodb://localhost/test');
   mongoose.connection
@@ -116,6 +118,7 @@ before((done) => {
     });
 });
 
+#### Note : this beforeEach  will run before any 'it' test
 beforeEach((done) => {
 mongoose.connection.collections.users.drop(() =>{
   
