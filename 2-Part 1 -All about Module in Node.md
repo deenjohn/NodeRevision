@@ -9,11 +9,14 @@ var greet = function() {
 	console.log('Hello!');
 };
 
-module.exports = greet;
+module.exports = greet; //whenever we use 'require('./greet')' , module.exports is returned
 
 #### app.js
 
-var greet = require('./greet'); //debugger , calls module.js
+var greet = require('./greet');  
+ //debugger ,sitting inside IIFE of module.js  
+  // IIFE  (function (exports, require, module, __filename, __dirname) { 'use strict';
+ // inside this calls makeRequireFunction(mod)  
 greet();
 
 ................
@@ -38,9 +41,13 @@ function makeRequireFunction(mod) {
  
  Module.prototype.require = function(path) {
   assert(path, 'missing path');
+  assert(typeof path === 'string', 'path must be a string');
+  return Module._load(path, this, /* isMain */ false);
+};
 
 ## Step 3: Loading : return Module._load(path, this, /* isMain */ false);
 
+load the contents of the file
 
 Module.prototype.require = function(path) {
   assert(path, 'missing path');
@@ -50,10 +57,57 @@ Module.prototype.require = function(path) {
 
 Module.load
 
-## Step 4 : Module._load = function(request, parent, isMain) {
+## Step 4 : 
+Module._load = function(request, parent, isMain) {
   if (parent) {
     debug('Module._load REQUEST %s parent: %s', request, parent.id);
   }
+
+  var filename = null;
+
+  if (isMain) {
+    let err;
+    try {
+      filename = Module._resolveFilename(request, parent, isMain);           // resolveFilename
+    } catch (e) { 
+      // try to keep stack
+      e.stack;
+      err = e;
+    }
+    if (experimentalModules) {
+      if (filename === null || /\.mjs$/.test(filename)) {
+        try {
+          ESMLoader.import(getURLFromFilePath(filename).href).catch((e) => {
+            console.error(e);
+            process.exit(1);
+          });
+          return;
+        } catch (e) {
+          // well, it isn't ESM
+        }
+      }
+    }
+    if (err) {
+      throw err;
+    }
+  } else {
+    filename = Module._resolveFilename(request, parent, isMain);   //resolveFilename
+  }
+
+  var cachedModule = Module._cache[filename];
+  if (cachedModule) {
+    updateChildren(parent, cachedModule, true);
+    return cachedModule.exports;
+  }
+
+  if (NativeModule.nonInternalExists(filename)) {
+    debug('load native module %s', request);
+    return NativeModule.require(filename);
+  }
+
+  // Don't call updateChildren(), Module constructor already does.
+  var module = new Module(filename, parent);
+
   
   ## Step 5 : caching 
   
@@ -71,7 +125,9 @@ Module.load
   // 6. return module.exports
 };
   
-  ## Step 6 :Loading  : var extension = path.extname(filename) || '.js';
+  ## Step 6 :Loading  :
+         
+	 var extension = path.extname(filename) || '.js';  //assume .js extension if not provided
   
 	  Module.prototype.load = function(filename) {
 	  debug('load %j for module %j', filename, this.id);
@@ -81,25 +137,32 @@ Module.load
 	  this.paths = Module._nodeModulePaths(path.dirname(filename));
 
 	  var extension = path.extname(filename) || '.js';
-	  if (!Module._extensions[extension]) extension = '.js';
+	  if (!Module._extensions[extension]) extension = '.js'; 
+	  // Module._extensions is a object which has .js, .json, .node  properties
 	  Module._extensions[extension](this, filename);
 	  this.loaded = true;
 	};
 	
-## Step 7 :Read the content of the file - var content = fs.readFileSync(filename, 'utf8');
-		/ Native extension for .js
+## Step 7 :Read the content of the file 
+		// Native extension for .js
 		Module._extensions['.js'] = function(module, filename) {
 		  var content = fs.readFileSync(filename, 'utf8');
 		  module._compile(internalModule.stripBOM(content), filename);
 		};
-
+## compile via v8 module._compile
 
 ## Step 8: Run the contents of the file
+      https://nodejs.org/api/modules.html#modules_the_module_wrapper
+      
 	var wrapper = Module.wrap(content);
+	// take the js content and wrap it in IIFE
+	
 	NativeModule.wrap = function(script) {
 	  return NativeModule.wrapper[0] + script + NativeModule.wrapper[1];
+	  // script is the code
 	};
-
+        
+	//return NativeModule.wrapper[0] 
 	NativeModule.wrapper = [
 	  '(function (exports, require, module, __filename, __dirname) { ',
 	  '\n});'
