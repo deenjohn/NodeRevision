@@ -1,34 +1,35 @@
 
 # inside ""greet" folder there are 3 files : english.js , spanish.js , index.js
 
- // english.js 
+      english.js 
         var greet = function() {
              console.log("hello");
          }//
 
-## spanish.js
+   ## spanish.js
 
 var greet = function() {
 	console.log("hola");
 }
 
 
-## index.js
-var english = require('./english');
-var spanish = require('./spanish');
+     ## index.js
+     var english = require('./english');
+    var spanish = require('./spanish');
 
-console.log("index file");
+    console.log("index file");
 
-module.exports = {
+    module.exports = {
 	english: english,
 	spanish: spanish	
-};
+    };
 
 ....................................
 
-## app.js.var greet = require('./greet'); 
-greet.english();
-greet.spanish();
+## app.js.
+     var greet = require('./greet'); 
+     greet.english();
+     greet.spanish();
 
 ### // search for index.js or index.json file in greet folder by default 
 but we can control this , all we need to do is add a package.json file in there and specify which file should be used to resolve this folder.
