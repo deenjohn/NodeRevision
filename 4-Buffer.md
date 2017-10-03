@@ -115,4 +115,12 @@ The character encodings currently supported by Node.js include:
  case 'utf-8':
         return this.utf8Write(string, offset, length);
  
- 
+............................................. 
+var buf = new Buffer("Hello", "utf8");
+console.log(buf); //hexadecimal
+console.log(buf.toString());
+console.log(buf.toJSON());
+console.log(buf[2]);
+
+buf.write("wo");
+console.log(buf.toString());
