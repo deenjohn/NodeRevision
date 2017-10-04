@@ -11,10 +11,12 @@ so , the actual express file is under ./lib/express which is under express folde
 
 var express = require('express');
 above code returns require('./lib/express'); which in turn return returns require('./lib/express'); which export:
+
  exports = module.exports = createApplication;
+ 
  createApplication is a function , not a function constructor 
  
-  function createApplication() {
+   function createApplication() {
     var app = function(req, res, next) {
       app.handle(req, res, next);
     };
