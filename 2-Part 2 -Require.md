@@ -1,14 +1,10 @@
 
 
-
-
-
-
 # inside ""greet" folder there are 3 files : english.js , spanish.js , index.js
 
    ## english.js 
    
-      ```javascript
+ ```javascript
 var greet = function() {
   console.log("hello");
 }; //
@@ -19,6 +15,7 @@ var greet = function() {
  ## spanish.js
    
    ```javascript
+   
 var greet = function() {
 	console.log("hola");
 }
