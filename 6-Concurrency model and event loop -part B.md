@@ -24,11 +24,24 @@ Libuv has eventloop.Libuv is responsible for the non- blocking behaviour of Node
 
 ### setTimeout vs setImmediate  vs nextTick 
 
-![alt text](https://blog-assets.risingstack.com/2016/10/the-Node-js-event-loop.png)
+In Node.js, each iteration of an Event Loop is called a tick
+
+Ticks and Phases of the Node.js Event Loop
+![Ticks and Phases](https://cdn-images-1.medium.com/max/800/1*ROxiavz7LeRpIfcgRDE7CA.png)
+
+
+
+![macro vs micro](https://blog-assets.risingstack.com/2016/10/the-Node-js-event-loop.png)
 
 
 
 #### process.nextTick : 
+https://gist.github.com/mmalecki/1257394
+
+The difference between setTimeout() and process.nextTick() is that the process.nextTick() function is specific to the Node.js Event Loop. setTimeout() uses JavaScript runtime to schedule its own queue of events. When using process.nextTick(), callback function associated with it runs immediately after events in the Event Queue are processed by the Event Loop in a single iteration. 
+In comparison to setTimeout(), it is faster since queue associated with setTimeout() or the JavaScript runtime.
+
+
 the call inside this is put in a callback queue and runs before exiting the current cycle.
 It runs before setImmediate.
 
