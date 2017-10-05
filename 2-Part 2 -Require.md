@@ -7,18 +7,16 @@
 # inside ""greet" folder there are 3 files : english.js , spanish.js , index.js
 
    ## english.js 
-      
+   
       ```javascript
+var greet = function() {
+  console.log("hello");
+}; //
 
-   var greet = function() {
-             console.log("hello");
-         }
-
-     ```
+```
       
-        
-
-   ## spanish.js
+  
+ ## spanish.js
    
    ```javascript
 var greet = function() {
