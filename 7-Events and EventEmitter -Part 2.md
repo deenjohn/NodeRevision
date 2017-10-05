@@ -1,4 +1,5 @@
 
+```javascript
 
 var EventEmitter = require('events');
 var util = require('util');
@@ -23,3 +24,7 @@ greeter1.on('greet', function(data) {
 });
 
 greeter1.greet('Tony');
+
+
+```
+
