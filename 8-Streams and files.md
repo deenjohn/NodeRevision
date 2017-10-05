@@ -75,6 +75,44 @@ ex : fs.writeFile('message.txt', 'Hello Node.js', (err) => {
 # readFile vs readStream
 
 http://stackoverflow.com/questions/4589732/what-are-the-pros-and-cons-of-fs-createreadstream-vs-fs-readfile-in-node-js
+............................................................
+### three ways to write a file:
+
+Currently there are three ways to write a file:
+
+fs.write(fd, buffer, offset, length, position, callback)
+
+You need to wait for the callback to ensure that the buffer is written to disk. It's not buffered.
+fs.writeFile(filename, data, [encoding], callback)
+
+All data must be stored at the same time; you cannot perform sequential writes.
+fs.createWriteStream(path, [options])
+
+Creates a WriteStream, which is convenient because you don't need to wait for a callback. But again, it's not buffered.
+A WriteStream, as the name says, is a stream. A stream by definition is “a buffer” containing data which moves in one direction (source ► destination). But a writable stream is not necessarily “buffered”. A stream is “buffered” when you write n times, and at time n+1, the stream sends the buffer to the kernel (because it's full and needs to be flushed).
+
+In other words: “A buffer” is the object. Whether or not it “is buffered” is a property of that object.
+
+If you look at the code, the WriteStream inherits from a writable Stream object. If you pay attention, you’ll see how they flush the content; they don't have any buffering system.
+
+If you write a string, it’s converted to a buffer, and then sent to the native layer and written to disk. When writing strings, they're not filling up any buffer. So, if you do:
+
+write("a")
+write("b")
+write("c")
+You're doing:
+
+fs.write(new Buffer("a"))
+fs.write(new Buffer("b"))
+fs.write(new Buffer("c"))
+That’s three calls to the I/O layer. Although you're using “buffers”, the data is not buffered. A buffered stream would do: fs.write(new Buffer ("abc")), one call to the I/O layer.
+
+As of now, in Node.js v0.12 (stable version announced 02/06/2015) now supports two functions: cork() and uncork(). It seems that these functions will finally allow you to buffer/flush the write calls.
+
+For example, in Java there are some classes that provide buffered streams (BufferedOutputStream, BufferedWriter...). If you write three bytes, these bytes will be stored in the buffer (memory) instead of doing an I/O call just for three bytes. When the buffer is full the content is flushed and saved to disk. This improves performance.
+
+I'm not discovering anything, just remembering how a disk access should be done.
+
 
 
 ## eventNames()
