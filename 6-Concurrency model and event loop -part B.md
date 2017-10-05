@@ -1,12 +1,13 @@
 https://github.com/kevinsimper/node-1/blob/master/doc/topics/the-event-loop-timers-and-nexttick.md
 https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop/
+https://medium.com/the-node-js-collection/what-you-should-know-to-really-understand-the-node-js-event-loop-and-its-metrics-c4907b19da4c
+https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop/  (best)
 
-
-#Cost of mutlithreading :
+### Cost of mutlithreading :
 Context switching , memory hogging
 
 
-#Event loop
+### Event loop
 
 
 V8 has heap & stack 
@@ -16,20 +17,32 @@ V8 call stack : can do one thing at a time. it's single threaded.
 Libuv has eventloop.Libuv is responsible for the non- blocking behaviour of Node.
 
 
-#What is an Eventloop ?
+### What is an Eventloop ?
     Eventloop keeps track if there is any callback function in the event queue to be processed.
     If there is , it pushes that function to callstack once the call stack is empty.
 
 
-setTimeout vs setImmediate  vs nextTick 
+### setTimeout vs setImmediate  vs nextTick 
 
-process.nextTick : the call inside this is put in a callback queue and runs before exiting the current cycle.
+![alt text](https://blog-assets.risingstack.com/2016/10/the-Node-js-event-loop.png)
+
+
+
+#### process.nextTick : 
+the call inside this is put in a callback queue and runs before exiting the current cycle.
 It runs before setImmediate.
+
+The process.nextTick method allows you to place a callback at the head of the next
+cycle of the run loop. That means it’s a way of slightly delaying something, and as a
+result it’s more efficient than just using setTimeout with a zero delay argument
+
+
 Interleaving execution of a CPU intensive task with other events
 Let's say we have a task compute() which needs to run almost continuously, and does some CPU intensive calculations. 
 If we wanted to also handle other events, like serving HTTP requests in the same Node process, 
 we can use process.nextTick() to interleave the execution of compute() with the processing of requests this way:
 
+```javascript
 var http = require('http');
 
 function compute() {
@@ -42,6 +55,9 @@ http.createServer(function(req, res) {
      res.writeHead(200, {'Content-Type': 'text/plain'});
      res.end('Hello World');
 }).listen(5000, '127.0.0.1');
+
+```
+
 
 compute();
 In this model, instead of calling compute() recursively, we use process.nextTick() to delay the execution of compute() till the next tick
