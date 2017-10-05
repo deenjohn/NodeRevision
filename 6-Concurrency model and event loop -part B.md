@@ -2,6 +2,7 @@ https://github.com/kevinsimper/node-1/blob/master/doc/topics/the-event-loop-time
 https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop/
 https://medium.com/the-node-js-collection/what-you-should-know-to-really-understand-the-node-js-event-loop-and-its-metrics-c4907b19da4c
 https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop/  (best)
+https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
 
 ### Cost of mutlithreading :
 Context switching , memory hogging
