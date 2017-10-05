@@ -9,11 +9,13 @@
    ## english.js 
       
       ```javascript
-        
-	var greet = function() {
+
+   var greet = function() {
              console.log("hello");
-         }//
-      ```
+         }
+
+     ```
+      
         
 
    ## spanish.js
