@@ -1,4 +1,9 @@
 
+
+
+
+
+
 # inside ""greet" folder there are 3 files : english.js , spanish.js , index.js
 
       english.js 
@@ -36,14 +41,20 @@ but we can control this , all we need to do is add a package.json file in there 
 ex : learn-node $ echo '{ "name": "greet", "main": "start.js" }' > node_modules/find-me/package.json
 
 .................................
+
 # require.resolve
+
 This behaves exactly the same as the main require function, but does not load the file.
+
+```javascript
 > require.resolve('find-me');
 		
 Output :	'/Users/samer/learn-node/node_modules/find-me/start.js'
 
 > require.resolve('not-there');
 Output :	Error: Cannot find module 'not-there'
+
+```
 
 .................................
 
