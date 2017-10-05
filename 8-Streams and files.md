@@ -42,7 +42,9 @@ Events on Writable Stream : close , drain, finish,pipe ,unpipe
  
  ex : { encoding: 'utf8', highWaterMark: 16 * 1024 }
  ex : 
-       var readStream = fs.createReadStream('./a.png')
+       
+       ```javascript
+        var readStream = fs.createReadStream('./a.png')
         .on('open' , function(){
 
           console.log("open !!")
@@ -55,6 +57,8 @@ Events on Writable Stream : close , drain, finish,pipe ,unpipe
         .on('data' , function(chunk){
          console.log(chunk)
         });
+     ```
+     
  
  
  .............................
@@ -64,10 +68,15 @@ Events on Writable Stream : close , drain, finish,pipe ,unpipe
 Event : close , open ,data
 Asynchronously writes data to a file, replacing the file if it already exists. data can be a string or a buffer.
 
-ex : fs.writeFile('message.txt', 'Hello Node.js', (err) => {
+ex :
+
+```javascript
+fs.writeFile('message.txt', 'Hello Node.js', (err) => {
   if (err) throw err;
   console.log('The file has been saved!');
 });
+```
+
 
 "Hello Node.js"  is the data written to file
 
@@ -97,6 +106,7 @@ If you look at the code, the WriteStream inherits from a writable Stream object.
 
 If you write a string, it’s converted to a buffer, and then sent to the native layer and written to disk. When writing strings, they're not filling up any buffer. So, if you do:
 
+```javascript
 write("a")
 write("b")
 write("c")
@@ -105,6 +115,10 @@ You're doing:
 fs.write(new Buffer("a"))
 fs.write(new Buffer("b"))
 fs.write(new Buffer("c"))
+
+```
+
+
 That’s three calls to the I/O layer. Although you're using “buffers”, the data is not buffered. A buffered stream would do: fs.write(new Buffer ("abc")), one call to the I/O layer.
 
 As of now, in Node.js v0.12 (stable version announced 02/06/2015) now supports two functions: cork() and uncork(). It seems that these functions will finally allow you to buffer/flush the write calls.
@@ -121,8 +135,9 @@ Since readFile and readStream inherit from EventEmitter , we can use method .eve
 
 # pipe or 'data' event can change the mode from "resume" to "flow"
 
-
-      var JSONStream = require('JSONStream');
+    
+```javascript
+var JSONStream = require('JSONStream');
       var readStream = fs.createReadStream('myfile.json');
       var parseStream = JSONStream.parse('rows.*.doc');
       parseStream.on('data', function (doc) {
@@ -138,6 +153,8 @@ Since readFile and readStream inherit from EventEmitter , we can use method .eve
         .on('data', function (doc) {
           db.insert(doc);
         });
+```
+      
 
 
 # the writable stream is ended automatically when the readable stream emits an end event (unless we specify
@@ -149,6 +166,8 @@ automatically to the writable stream, so there is no need to call read() or writ
 # TRANSFORM stream
 ReplaceStream is a transform stream
 
+
+```javascript
 const ReplaceStream = require('./replaceStream');
 process.stdin
 .pipe(new ReplaceStream(process.argv[2], process.argv[3]))
@@ -159,6 +178,8 @@ ReplaceStream and then back to the standard output. Now, to try this small appli
 we can leverage a Unix pipe to redirect some data into its standard input, as shown in the
 following example:
 echo Hello World! | node replace World Node.js
+```
+
 
 This should produce the following output:
 Hello Node.js
