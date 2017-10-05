@@ -30,7 +30,9 @@ Ticks and Phases of the Node.js Event Loop
 ![Ticks and Phases](https://cdn-images-1.medium.com/max/800/1*ROxiavz7LeRpIfcgRDE7CA.png)
 
 
+Exactly one (macro)task should get processed from the macrotask queue in one cycle of the event loop. After said macrotask has finished, all of the available microtasks will be processed within the same cycle. While these microtasks are being processed, they can queue more microtasks, which will all be run one by one, until the microtask queue is exhausted.
 
+This diagram tries to make the picture a bit clearer:
 ![macro vs micro](https://blog-assets.risingstack.com/2016/10/the-Node-js-event-loop.png)
 
 
