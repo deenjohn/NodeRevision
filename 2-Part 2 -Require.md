@@ -6,10 +6,11 @@
 
 # inside ""greet" folder there are 3 files : english.js , spanish.js , index.js
 
-      english.js 
+   ## english.js 
       
       ```javascript
-        var greet = function() {
+        
+	var greet = function() {
              console.log("hello");
          }//
       ```
