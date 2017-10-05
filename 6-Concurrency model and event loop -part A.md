@@ -3,6 +3,35 @@ Resources :
   2) Learn and understand node.js
 
 
+
+http://docs.libuv.org/en/v1.x/loop.html
+http://docs.libuv.org/en/v1.x/design.html
+
+The Event Loop
+A loop that picks events from the event queue and
+pushes their callbacks to the call stack
+
+Event loops
+
+In event-driven programming, an application expresses interest in certain events and respond to them when they occur. The responsibility of gathering events from the operating system or monitoring other sources of events is handled by libuv, and the user can register callbacks to be invoked when an event occurs. The event-loop usually keeps running forever. In pseudocode:
+
+When the call stack gets empty:
+while there are still events to process:
+    e = get the next event
+    if there is a callback associated with e:
+        call the callback
+Some examples of events are:
+
+File is ready for writing
+A socket has data ready to be read
+A timer has timed out
+
+
+
+
+
+
+
 #callback pattern
 
         function greet(callback) {
