@@ -13,6 +13,51 @@ Data flow.Use memory effeciently.
 require('fs');
 ## readFile : If no encoding is specified, then the raw buffer is returned.
 
+### fs.readFileSync
+   the program will block,and all of the data will be read to memory
+
+### fs.readFile 
+will prevent the program from blocking because it’s an asynchronous method, but it’ll still read the entire
+file into memory.
+
+### fs.read 
+
+Instead of reading the entire file into memory, you could use fs.read with a suitable buffer, 
+reading in a specific length at a time
+ 
+ 
+### fs.createReadStream (best approach)
+ only a chunk of a file is read at a time
+ 
+ ```javascript
+
+var http = require('http');
+var fs = require('fs');
+http.createServer(function(req, res) {
+fs.createReadStream(__dirname + '/index.html').pipe(res);
+}).listen(8000);
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## fs.appendFile(file, data[, options], callback)
     options <Object> | <string>
     encoding <string> | <null> default = 'utf8'
