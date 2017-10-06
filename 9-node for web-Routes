@@ -1,0 +1,39 @@
+https://nodejs.org/api/http.html
+
+```javascript
+
+
+
+var server = require("http").createServer();
+var fs = require("fs");
+server.on("request", (req, res) => {
+  console.log(req.url);
+  switch (req.url) {
+    case "/":
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end("welcome");
+      break;
+    case "/home":
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(fs.readFileSync("./home.html"));
+      break;
+    case "/api":
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end("api");
+      break;
+    default:
+      break;
+  }
+});
+
+server.listen(3000);
+
+
+
+
+
+```
+
+
+
+
