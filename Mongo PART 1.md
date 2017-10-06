@@ -1,3 +1,10 @@
+https://stackoverflow.com/questions/25947929/how-to-list-all-databases-in-the-mongo-shell
+
+## show dbs 
+to show all the databse in mongo
+
+
+
 # create a collection and save a doc in it
 > use mydb
 
