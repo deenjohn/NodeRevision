@@ -52,7 +52,8 @@ router.get('/rooms', function (req, res) {
   });
 });
 
-router.route('/rooms/add')               //You can create chainable route handlers for a route path by using router.route()
+router.route('/rooms/add')                 // You can create chainable route handlers for a 
+                                          // route path by using router.route()
   .get(function (req, res) {
     res.render("add");
   })
