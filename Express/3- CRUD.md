@@ -230,12 +230,19 @@ app.get('/admin/rooms/delete/:id', function(req, res){
 redirect to rooms by sending a GET request to 
 GET : http://localhost:3000/admin/rooms
 
+
+```javascript
+
 app.get('/admin/rooms', function (req, res) {
     res.render("rooms", {
         title: "Admin Rooms",
         rooms: rooms     //sends the updated rooms data
     });
 });
+
+```
+
+
 
 ............................................
 
