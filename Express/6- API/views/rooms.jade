@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1 Chat Rooms
+    a.btn.btn-primary(href="/admin/rooms/add") Create a new chat room
+    table.table.table-striped
+        thead
+            tr
+                th
+                th Name
+                th
+                th Id
+        tbody
+            each room in rooms
+                tr
+                    td(style="width: 50px;"): a(href="/admin/rooms/delete/#{room.id}")
+                        span.glyphicon.glyphicon-remove
+                    td= room.name
+                    td(style="width: 50px;"): a(href="/admin/rooms/edit/#{room.id}")
+                        span.glyphicon.glyphicon-pencil
+                    td= room.id
