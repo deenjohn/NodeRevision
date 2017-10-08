@@ -17,7 +17,7 @@ app.use(authRouter);
 //all the requests are passed via this middleware
 
 app.use(function(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) {       // req.isAuthenticated() is available only due to Passport
     res.locals.user = req.user;
     next();
     return;
@@ -79,6 +79,7 @@ passport.serializeUser(function (user, done) {
 
 // deseralize session info
 passport.deserializeUser(function (user, done) {
+  // after successfull authentication  , each subsequent request goes through this
   done(null, user);
 });
 
