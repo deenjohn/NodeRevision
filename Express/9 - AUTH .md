@@ -85,3 +85,47 @@ passport.deserializeUser(function (user, done) {
 
 
 ```
+
+You can prevent any non -admin to visit the admin route    
+
+## admin.js
+
+### app.js
+
+var adminRouter = require("./admin");
+app.use("/admin", adminRouter);
+
+### admin.js
+
+//allow only if request has admin property
+//req.user.admin
+
+router.use(function (req, res, next) {
+  if (req.user.admin) {
+    next();
+    return;
+  }
+  res.redirect("/login");
+});
+
+### put "admin": true in users.json
+
+ {
+    "name": "test",
+    "id": "44f885e8-87e9-4911-973c-4074188f408a",
+    "password": "test",
+    "admin": true
+  }
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
