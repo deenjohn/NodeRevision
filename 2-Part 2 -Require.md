@@ -224,6 +224,7 @@ When the file is not being required, we just call the printInFrame function with
  console.log(require.cache) 
  
  we can delete the cache entry 
+ https://stackoverflow.com/questions/15666144/how-to-remove-module-after-require-in-node-js
  
  delete require.cache(value of cache path )
  
