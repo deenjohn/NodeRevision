@@ -227,6 +227,12 @@ When the file is not being required, we just call the printInFrame function with
  
  delete require.cache(value of cache path )
  
+ ex :
+ require('./greet');
+delete require.cache[require.resolve('./greet')]
+require('./greet');
+
+ 
  ........................................
 
 index.js
